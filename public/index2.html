@@ -1,0 +1,2443 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INDEX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/index2.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/>
+
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btnSignup").click(function(){
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var usertype = $("#usertype").val();
+
+                var url = "/signupForm?email="+email+"&password="+password+"&usertype="+usertype;
+
+                if( email.length == 0 || password.length == 0 || usertype.change == false)
+                {
+                    alert("Fill the form");
+                }
+                else
+                {  
+                    $.get(url, function(resp){ //fire AJAX request
+                        $("#result").html(resp);
+                    })
+                }   
+            });
+
+            $("#btnLogin").click(function(){
+                var emaill = $("#emaill").val();
+                var passwordl = $("#passwordl").val();
+
+                var url = "/loginForm?email="+emaill+"&password="+passwordl;
+
+
+                $.getJSON(url, function(JSONresp){   //fire AJAX request
+                    // alert(JSON.stringify(JSONresp));
+
+                    if(JSONresp.length==0)
+                    {
+                        $("#resultl").html("Invalid User Login").css("color","red");
+                        $("#emaill").css("border","red 1px solid");
+                        $("#passwordl").css("border","red 1px solid");
+                    }
+                    else
+                    {
+                            if(JSONresp[0].usertype=="gold")
+                                window.location.href="goldUser.html";
+                            else
+                                window.location.href="silverUser.html";
+                    }
+                    
+                })
+            });
+
+            $("#btnAdmin").click(function(){
+                var email = $("#emaila").val();
+                var password = $("#passworda").val();
+
+                if( email == "jashandeepkaursidhu712@gmail.com" && password == "admin123")
+                window.location.href="admin.html";
+                else
+                $("#resulta").html("Invalid User Login").css("color","red");
+            })
+
+            $("#emaill").blur(function(){
+                var email = $("#emaill").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#emaill").css("border","green 1px solid");
+                    $("#emaillmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#emaill").css("border","red 1px solid");
+                    $("#emaillmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+         
+            $(".fann").mousedown(function(){
+                $("#password").prop("type", "text");
+                $(".fann").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fann").mouseup(function(){
+                $("#password").prop("type", "password");
+                $(".fann").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fan").mousedown(function(){
+                $("#passwordl").prop("type", "text");
+                $(".fan").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fan").mouseup(function(){
+                $("#passwordl").prop("type", "password");
+                $(".fan").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fana").mousedown(function(){
+                $("#passworda").prop("type", "text");
+                $(".fana").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fana").mouseup(function(){
+                $("#passworda").prop("type", "password");
+                $(".fana").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $("#email").blur(function(){
+                var email = $("#email").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#email").css("border","green 1px solid");
+                    $("#emailmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#email").css("border","red 1px solid");
+                    $("#emailmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+
+            $("#password").blur(function(){
+                var pw = $("#password").val();
+                var p = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ ;
+
+                if( p.test(pw) == true ){ 
+                    $("#password").css("border","green 1px solid");                   
+                    $("#passwordmsj").html("<p class='text-success'> </p> ");
+                }
+                else{
+                    $("#password").css("border","red 1px solid");
+                    $("#passwordmsj").html("<p class='text-danger'>Enter valid Password </p> ");
+                }
+            });
+
+            $("#pic1").waypoint(function(direction){
+                $("#pic1").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic2").waypoint(function(direction){
+                $("#pic2").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic3").waypoint(function(direction){
+                $("#pic3").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic4").waypoint(function(direction){
+                $("#pic4").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#map").waypoint(function(direction){
+                $("#map").addClass("animated zoomIn");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#behind").waypoint(function(direction){
+                $("#behind").addClass("animated slideInRight rotateIn");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#imgAboutUs").waypoint(function(direction){
+                $("#imgAboutUs").addClass("animated flip");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#meet").waypoint(function(direction){
+                $("#meet").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#meet1").waypoint(function(direction){
+                $("#meet1").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#meet2").waypoint(function(direction){
+                $("#meet2").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#contentAboutUs").waypoint(function(direction){
+                $("#contentAboutUs").addClass("animated bounce");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#divsl11").waypoint(function(direction){
+                $("#divsl11").addClass("animated fadeInLeft");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#divsl12").waypoint(function(direction){
+                $("#divsl12").addClass("animated fadeInRight");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#service").waypoint(function(direction){
+                $("#service").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card1").waypoint(function(direction){
+                $("#card1").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card2").waypoint(function(direction){
+                $("#card2").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card3").waypoint(function(direction){
+                $("#card3").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card4").waypoint(function(direction){
+                $("#card4").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#tologin").waypoint(function(direction){
+                $("#tologin").addClass("animated flipInY");
+            },{
+                offset: 'bottom-in-view'
+            });
+            
+        });
+    </script>
+
+</head>
+<body>
+
+    <div id="gotopp" style="margin: 0;"></div>
+
+    <a href="#gotopp">
+        <div id="gotop"></div>
+    </a>
+
+    <!-- ///////////////////////      BACKGROUND VIDEO           ///////////////////////////// -->
+
+    <div>
+        <video autoplay loop muted plays-inline class="back" id="video">
+          <source src="videos/workers.mp4" type="video/mp4">
+        </video>
+    </div> 
+
+    <!-- ///////////////////////      NAV BAR           ////////////////////// -->
+    <nav class="navbar " style="background: rgba(209, 209, 209, 0.912);">
+        <div class="container-fluid">
+
+            <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;">
+
+            <!-- <a class="navbar-brand" href="#">Navbar</a>                     -->
+            <!-- <a class="navbar-brand" href="#" style="font-family: 'Times New Roman', Times, serif;">
+                <span style="font-family: Brush Script MT;">ease</span>Nodus</a> -->
+                    
+                <form class="d-flex justify-content-end" id="signuplogin" style="margin: 2px;  width: 80%; margin-right: 6%;"> 
+                    <button type="button" class="btn btn-outline-success me-md-2" style="margin: 2px;"  data-bs-toggle="modal" data-bs-target="#signupModal">
+                        SIGN-UP
+                    </button>
+                    <button type="button" class="btn btn-outline-success me-md-2" style="margin: 2px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        LOGIN
+                    </button>
+                    <button type="button" class="btn btn-outline-success" style="margin: 2px;" data-bs-toggle="modal" data-bs-target="#adminModal">
+                        ADMIN
+                    </button>
+                </form>
+
+                
+                <form class="d-flex justify-content-end" style="margin: 2px;" id="btncollapse"> 
+                    <button class="navbar-toggler" style="margin: 2px;" type="button" data-bs-toggle="offcanvas" data-bs-target=".offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </form>
+
+
+            <div class="offcanvas offcanvas-end justify-content-end offcanvasNavbar" tabindex="-1"  aria-labelledby="offcanvasNavbarLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="user-select: none;">CONTENTS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#" style="user-select: none;"><span class="litem">HOME</span></a>
+                        </li>     
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#about" style="user-select: none;"><span class="litem">OUR SERVICES</span></a>
+                        </li> 
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#developers" style="user-select: none;"><span class="litem">DEVELOPERS</span></a>
+                        </li> 
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#reach" style="user-select: none;"><span class="litem">REACH US</span></a>
+                        </li><br>
+                    
+                        <li class="nav-item">                       
+                            <button type="button" class="btn btn-outline-success me-md-2 " style="margin: 5px;"  data-bs-toggle="modal" data-bs-target="#signupModal">
+                                SIGN-UP
+                            </button>
+                      
+                            <button type="button" class="btn btn-outline-success" style="margin: 5px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                LOGIN
+                            </button>
+
+                            <button type="button" class="btn btn-outline-success" style="margin: 5px;" data-bs-toggle="modal" data-bs-target="#adminModal">
+                                ADMIN
+                            </button>
+                        </li>              
+                    
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- ///////////////////////      HEADING    EASE NODUS           ////////////////////////////////////////////////////////////////////////////////////////////////////  -->
+    <div class="headingDiv">
+
+        <div class="row">
+            <div class="col">
+
+                <p class="container" id="h2" style="user-select: none;"><span> easeNodus </span></p>
+                <p class="container" id="h4" style="user-select: none;">easeNodus</p>
+
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col">
+
+                <p class="container description" style="user-select: none;">WE ARE WHAT WE BELIEVE WE ARE.</p>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ///////////////////////      ABOUT US           //////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+<div class="bgaboutus">
+    <div class="container aboutUsDiv" >
+        <div class="row d-flex justify-content-evenly" style="border: 1px  black;">
+
+            <div class="col-md-4 imgAboutUsdiv">
+                <center>
+                    <img src="pics/1-removebg-preview.png" alt="" height="350px" width="350px" class="imgAboutUs" id="imgAboutUs">  
+                </center>              
+            </div>
+
+            <div class="col-md-8 contentAboutUsdiv">
+                <span  class="container" id="contentAboutUs">
+                    Ease Nodus enables millions of underprivileged and unorganized blue-collar workforce in finding local employment, free of cost, directly from nearby employers, and without the middlemen in between.
+                    <br> <br> In turn, the platform makes it easy, quick, reliable & affordable for millions of employers to find & hire nearby blue-collar workers, again without the middlemen in between.  
+                </span>                 
+            </div>
+
+        </div>
+    </div>
+</div>
+    <!-- ///////////////////////      PICTURES        ///////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <div class="container"  style="margin: auto; user-select: none; margin-top: 4%; border: 1px black;">
+        <div class="row d-flex justify-content-evenly" >
+ 
+            <div class="col-md-2 mb-3" id="pic1" style="border: 1px black; width:270px;">
+                <img src="pics/worker1.jpg" alt="" class="img-fluid rounded-start" style="height: 340px;">
+            </div>
+
+            <div class="col-md-2 mb-3" id="pic2" style="border: 1px black; width:270px; margin-top: 5%;">
+                <img src="pics/pics2.png" alt="" class="img-fluid rounded-start" style="height: 340px;">
+            </div>
+
+            <div class="col-md-2 mb-3" id="pic3" style="border: 1px black; width:270px;">
+                <img src="pics/2.png" alt="" class="img-fluid rounded-start" style="height: 340px;">
+            </div>
+
+            <div class="col-md-2 mb-3" id="pic4" style="border: 1px black; width:270px; margin-top: 3%;">
+                <img src="pics/pic1.png" alt="" class="img-fluid rounded-start" style="height: 340px;">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="about" style="margin-bottom: 6%; width: 700px; height: 10px;"></div>
+
+    <!-- ///////////////////////      SIGN UP LOGIN  IN PAGE           ////////////////////////////////// -->
+
+    <div class="signuploginPage">
+        <div class="row d-flex justify-content-evenly" style="padding-bottom: 8%;">
+
+            <div class="col-md-6 mb-3" id="divsl11"> 
+
+                <div class="row">
+                    <div class="col-md-12 divsl1">
+                        LOOKING FOR STAFF? <br>
+                        LOOKING FOR WORK? <br>
+                        SIGN UP HERE! <br>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <center>
+                        <button type="button" class="btn btn-lg btn-success me-md-2 " data-bs-toggle="modal" data-bs-target="#signupModal">
+                            SIGN-UP
+                        </button></center>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3" id="divsl12">
+
+                <div class="row" >
+
+                    <div class="col-md-12 divsl1">
+
+                        START LOOKING FOR HELPERS. <br>
+                        FIND WORK SUITABLE FOR YOU.<br>
+                        LOGIN HERE TO GET STARTED! <br>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12" >
+                    <center>
+                        <button type="button" class="btn btn-lg btn-success me-md-2 " data-bs-toggle="modal" data-bs-target="#loginModal">
+                            LOGIN
+                        </button></center>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ///////////////////////      OUR SERVICES           ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <div id="services" style="margin-bottom: 2%; width: 700px; height: 1px;"></div>
+
+    <div class="container services">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div style="margin: 3%;">
+                    <center><span class="spanservice" id="service"> OUR SERVICES </span></center>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-evenly" style="margin-bottom: 10%; padding-bottom: 3%;">
+
+            <div class="col-md-2 mb-3" id="card1" style="width: 220px;">
+                <div class="card">
+                <img src="pics/settings.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text"></p>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3" id="card2" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3" id="card3" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-2 mb-3" id="card4" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ///////////////////////      FLIP PICTURES           /////////////////////////////// -->
+
+    <!-- ///////////////////////      MEET THE DEVELOPERS           ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <div id="developers" style="margin-bottom: 2%; width: 700px; height: 1px;"></div>
+
+    <div style="background: url(pics/bgforDevelpers1.jpg); background-attachment: fixed;">
+        <div class="container developers">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin: 2%;">
+                        <center><span class="spandeveloper" id="meet"> MEET THE DEVELOPERS </span></center>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-evenly">
+
+                <div class="card mb-3" id="meet1" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="pics/settings.png" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Jashandeep Kaur Sidhu</h5>
+                                <p class="card-text">B.Tech CSE student. <br> Web-Development Full-stack Training project. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3" id="meet2" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="pics/settings.png" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Rajesh Bansal</h5>
+                                <p class="card-text">Founder of Banglore Computer Education. <br> Author Real-Java book.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    <!-- ///////////////////////      REACH US           ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <div id="reach" style="margin-bottom: 6%; width: 700px; height: 10px;"></div>
+
+    <div class="container" style="border: 1px black; margin-bottom: 5%;">
+        <img src="pics/circle.png" alt="" width="200px" style="z-index: -1; position: absolute; background-attachment: fixed; border: 1px black;" id="behind">
+    </div>
+
+    <div class="container content2" style="align-items: left; margin-top: 4%; border: 1px black; margin-bottom: 5%;">
+        <img src="pics/quotation-mark.png" alt="" width="100px" style="align-content: flex-start;">
+        <span style="font-size: 40px; font-family: 'Times New Roman', Times, serif; margin-top: 3%; font-weight: 800; user-select: none;">REACH US</span>                
+    </div>
+
+    <div class="container" style="margin-top: 2%; margin-bottom: 14%;">
+        <div class="row d-flex justify-content-evenly" id="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.8805713544966!2d74.95013405012294!3d30.211955917506767!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f07278a9%3A0x4a0d6293513f98ce!2sBanglore%20Computer%20Education!5e0!3m2!1sen!2sin!4v1661260134447!5m2!1sen!2sin" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+
+
+    <!-- ///////////////////////      FOOTER           /////////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <footer>
+        <div style="background: rgba(209, 209, 209, 0.912);">
+            
+            <div class="container" style="padding: 1%;">
+                <div class="row d-flex justify-content-around">
+
+                    <div class="col-md-4 mb-3 content1" style="height: 130px;" id="highlight">
+                        <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;">
+                        <a class="navbar-brand" href="#" style="font-family: 'Times New Roman', Times, serif; background-color: aliceblue; user-select: none;">
+                            <h3 style="user-select: none;"><span style="font-family: Brush Script MT; user-select: none;">ease</span>Nodus</h3></a>
+                        <p class="container" style="font-family: 'Times New Roman', Times, serif; user-select: none;">WE ARE WHAT WE BELIEVE WE ARE.</p>
+                    </div>
+
+                    <div class="col-md-4  mb-3 content1" style="height: 130px;" id="content">
+                        <a href="#about" style="text-decoration: none; color: black; user-select: none;"><span class="litem2">ABOUT</span></a><br><br>
+                        <a href="#developers" style="text-decoration: none; color: black; user-select: none;"><span class="litem2">MEET THE DEVELOPERS</span></a><br><br>
+                        <span style="font-family: 'Times New Roman', Times, serif; user-select: none;">COPYRIGHT RESERVED</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ///////////////////////      SIGN UP           //////////////////////////////////////////////////////////////////////////////////////// class="fade"-->
+
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sign up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="email" placeholder="email">
+                          <label for="email">Email address</label>
+                            <span id="emailmsj"></span>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="mb-3 col-md-11  form-floating">
+                                <input type="password" class="form-control" id="password" value="" placeholder="password">
+                                <label for="password">&nbsp;Password</label>
+                                <span id="passwordmsj"></span>
+                            </div>
+                        
+                            
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fann" aria-hidden="true"></i> 
+                            </div> 
+                        </div>
+
+                        <div class="mb-3  form-floating">
+                            <select class="form-select" id="usertype" aria-label="Default select example" aria-placeholder="type">
+                                <option selected>Open this select menu</option>
+                                <option value="gold">HIRE SERVICE</option>
+                                <option value="silver">PROVIDE SERVICE</option>
+                                <!-- <option value="admin">ADMIN</option> -->
+                            </select>
+                            <label for="options">&nbsp;Member Type</label>
+                        </div> <br>
+
+                        <center>
+                        <div class="mb-3">
+                            <input type="button" value="Signup" class="btn btn-success" id="btnSignup">
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" id="tologin" data-bs-toggle="modal" data-bs-target="#loginModal" style="text-decoration: none; color: olivedrab;" >Already a member? Login</a>
+                        </div>
+                        </center>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer" style="align-items: center;">
+                    <div id="result"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////////////      LOGIN           ////////////////////////////////////////////////////////////////////////////////////// -->
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emaill" placeholder="email" autocomplete="false"> 
+                          <label for="emaill">&nbsp;Email address</label>
+                        </div> 
+                      
+                        <div class="row">
+                            <div class="mb-2 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="passwordl" value="" placeholder="password">
+                                <label for="passwordl">&nbsp;Password</label>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fan" aria-hidden="true"></i> 
+                            </div> 
+                        </div>                  
+
+                        <div class="mb-3">
+                           <center><input type="button" value="LOGIN" class="btn btn-success" id="btnLogin"></center>
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#signupModal" style="text-decoration: none; color: olivedrab;" ><center>Not a member? Sign-Up </center></a >
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="resultl"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////////////////////      ADMIN LOGIN MODAL           //////////////////////////////////////////////////////////////////////////////////////////////  -->
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ADMIN PANEL</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emaila" placeholder="email" autocomplete="false"> 
+                          <label for="emaila">&nbsp;Email address</label>
+                        </div> 
+                      
+                        <div class="row">
+                            <div class="mb-3 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="passworda" value="" placeholder="password">
+                                <label for="passworda">&nbsp;Password</label>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fana" aria-hidden="true"></i> 
+                            </div> 
+                        </div>    <br>              
+
+                        <div class="mb-3">
+                           <center><input type="button" value="LOGIN" class="btn btn-success" id="btnAdmin"></center>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="resulta"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<!-- old on changes before training -->
+
+<!-- 
+
+    <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INDEX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="css/index.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/>
+
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btnSignup").click(function(){
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var usertype = $("#usertype").val();
+
+                var url = "/signupForm?email="+email+"&password="+password+"&usertype="+usertype; //A string containing the URL to which the request is sent to the server carrying email password and usertype
+
+                if( email.length == 0 || password.length == 0 || usertype.change == false)
+                {
+                    alert("Fill the form");
+                }
+                else
+                {  
+                    $.get(url, function(resp){ //fire AJAX request
+                        $("#result").html(resp);
+                    })
+                }   
+            });
+
+            $("#btnLogin").click(function(){
+                var emaill = $("#emaill").val();
+                var passwordl = $("#passwordl").val();
+
+                var url = "/loginForm?email="+emaill+"&password="+passwordl;
+
+                $.getJSON(url, function(JSONresp){   //fire AJAX request
+                    // alert(JSON.stringify(JSONresp));
+
+                    if(JSONresp.length==0)
+                    {
+                        $("#resultl").html("Invalid User Login").css("color","red");
+                        $("#emaill").css("border","red 1px solid");
+                        $("#passwordl").css("border","red 1px solid");
+                    }
+                    else
+                    {
+                        localStorage.setItem("activeUser",emaill);
+
+                            if(JSONresp[0].usertype=="gold")
+                                window.location.href="goldUser.html";
+                            else
+                                window.location.href="silverUser.html";
+                    }
+                    
+                })
+            });
+
+            $("#btnAdmin").click(function(){
+                var email = $("#emaila").val();
+                var password = $("#passworda").val();
+
+                if( email == "jashandeepkaursidhu712@gmail.com" && password == "admin123")
+                {
+                    window.location.href="admin.html";
+                    $("#emaila").css("border","green 1px solid");
+                    $("#passworda").css("border","green 1px solid");
+                }
+                else
+                {
+                    $("#emaila").css("border","red 1px solid");
+                    $("#passworda").css("border","red 1px solid");
+                    $("#resulta").html("Invalid User Login").css("color","red");
+                }
+            })
+
+            $("#emaill").blur(function(){
+                var email = $("#emaill").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#emaill").css("border","green 1px solid");
+                    $("#emaillmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#emaill").css("border","red 1px solid");
+                    $("#emaillmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+
+            $("#emaila").blur(function(){
+                var email = $("#emaila").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#emaila").css("border","green 1px solid");
+                    $("#emailamsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#emaila").css("border","red 1px solid");
+                    $("#emailamsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+         
+            $(".fann").mousedown(function(){
+                $("#password").prop("type", "text");
+                $(".fann").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fann").mouseup(function(){
+                $("#password").prop("type", "password");
+                $(".fann").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fan").mousedown(function(){
+                $("#passwordl").prop("type", "text");
+                $(".fan").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fan").mouseup(function(){
+                $("#passwordl").prop("type", "password");
+                $(".fan").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fana").mousedown(function(){
+                $("#passworda").prop("type", "text");
+                $(".fana").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fana").mouseup(function(){
+                $("#passworda").prop("type", "password");
+                $(".fana").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $("#email").blur(function(){
+                var email = $("#email").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#email").css("border","green 1px solid");
+                    $("#emailmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#email").css("border","red 1px solid");
+                    $("#emailmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+
+            $("#password").blur(function(){
+                var pw = $("#password").val();
+                var p = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ ;
+
+                if( p.test(pw) == true ){ 
+                    $("#password").css("border","green 1px solid");                   
+                    $("#passwordmsj").html("<p class='text-success'> </p> ");
+                }
+                else{
+                    $("#password").css("border","red 1px solid");
+                    $("#passwordmsj").html("<p class='text-danger'>Enter valid Password </p> ");
+                }
+            });
+
+            $("#h2").waypoint(function(direction){
+                $("#h2").addClass("animated bounceInDown");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic1").waypoint(function(direction){
+                $("#pic1").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic2").waypoint(function(direction){
+                $("#pic2").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic3").waypoint(function(direction){
+                $("#pic3").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#pic4").waypoint(function(direction){
+                $("#pic4").addClass("animated fadeInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#map").waypoint(function(direction){
+                $("#map").addClass("animated zoomIn");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#behind").waypoint(function(direction){
+                $("#behind").addClass("animated slideInRight rotateIn");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#imgAboutUs").waypoint(function(direction){
+                $("#imgAboutUs").addClass("animated flip");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#meet").waypoint(function(direction){
+                $("#meet").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#meet1").waypoint(function(direction){
+                $("#meet1").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#meet2").waypoint(function(direction){
+                $("#meet2").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#contentAboutUs").waypoint(function(direction){
+                $("#contentAboutUs").addClass("animated bounce");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#divsl11").waypoint(function(direction){
+                $("#divsl11").addClass("animated fadeInLeft");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#divsl12").waypoint(function(direction){
+                $("#divsl12").addClass("animated fadeInRight");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#service").waypoint(function(direction){
+                $("#service").addClass("animated fadeInUpBig");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card1").waypoint(function(direction){
+                $("#card1").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card2").waypoint(function(direction){
+                $("#card2").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card3").waypoint(function(direction){
+                $("#card3").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card4").waypoint(function(direction){
+                $("#card4").addClass("animated slideInUp");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            
+            
+        });
+    </script>
+
+</head>
+<body>
+
+    <div id="gotopp"></div>
+
+    <a href="#gotopp">
+        <div id="gotop"></div>
+    </a>
+
+    ///////////////////////      BACKGROUND VIDEO           /////////////////////////////
+
+    <div>
+        <video autoplay loop muted plays-inline class="back" id="video">
+          <source src="videos/workers.mp4" type="video/mp4">
+        </video>
+    </div> 
+
+    ///////////////////////      NAV BAR           //////////////////////
+    <nav class="navbar " style="background: rgba(209, 209, 209, 0.912);">
+        <div class="container-fluid">
+
+            <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;">
+
+            <a class="navbar-brand" href="#">Navbar</a>                    
+            <!-- <a class="navbar-brand" href="#" style="font-family: 'Times New Roman', Times, serif;">
+                <span style="font-family: Brush Script MT;">ease</span>Nodus</a> 
+                    
+                <form class="d-flex justify-content-end" id="signuplogin" style="margin: 2px;  width: 80%; margin-right: 6%;"> 
+                    <button type="button" class="btn btn-outline-success me-md-2" style="margin: 2px;"  data-bs-toggle="modal" data-bs-target="#signupModal">
+                        SIGN-UP
+                    </button>
+                    <button type="button" class="btn btn-outline-success me-md-2" style="margin: 2px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        LOGIN
+                    </button>
+                    <button type="button" class="btn btn-outline-success" style="margin: 2px;" data-bs-toggle="modal" data-bs-target="#adminModal">
+                        ADMIN
+                    </button>
+                </form>
+
+                
+                <form class="d-flex justify-content-end" style="margin: 2px;" id="btncollapse"> 
+                    <button class="navbar-toggler" style="margin: 2px;" type="button" data-bs-toggle="offcanvas" data-bs-target=".offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </form>
+
+
+            <div class="offcanvas offcanvas-end justify-content-end offcanvasNavbar" tabindex="-1"  aria-labelledby="offcanvasNavbarLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="user-select: none;">CONTENTS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#" style="user-select: none;"><span class="litem">HOME</span></a>
+                        </li>     
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#services" style="user-select: none;"><span class="litem">OUR SERVICES</span></a>
+                        </li> 
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#developers" style="user-select: none;"><span class="litem">DEVELOPERS</span></a>
+                        </li> 
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#about" style="user-select: none;"><span class="litem">ABOUT US</span></a>
+                        </li> 
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#reach" style="user-select: none;"><span class="litem">REACH US</span></a>
+                        </li><br>
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index3.html" style="user-select: none;"><span class="litem">index3</span></a>
+                        </li><br>
+                    
+                        <li class="nav-item">                       
+                            <button type="button" class="btn btn-outline-success me-md-2 " style="margin: 5px;"  data-bs-toggle="modal" data-bs-target="#signupModal">
+                                SIGN-UP
+                            </button>
+                      
+                            <button type="button" class="btn btn-outline-success" style="margin: 5px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                LOGIN
+                            </button>
+
+                            <button type="button" class="btn btn-outline-success" style="margin: 5px;" data-bs-toggle="modal" data-bs-target="#adminModal">
+                                ADMIN
+                            </button>
+                        </li>              
+                    
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    ///////////////////////      HEADING    EASE NODUS           //////////////////////////////////////////////////////////////////////////////////////////////////// 
+    <div class="headingDiv">
+
+        <div class="row">
+            <div class="col">
+
+                <p class="container" id="h2" style="user-select: none;"><span> easeNodus </span></p>
+                <p class="container" id="h4" style="user-select: none;">easeNodus</p>
+
+            </div>
+        </div>
+            
+        <div class="row">
+            <div class="col">
+
+                <p class="container description" style="user-select: none;">WE ARE WHAT WE BELIEVE WE ARE.</p>
+
+            </div>
+        </div>
+
+    </div>
+    
+    ///////////////////////      ABOUT US           ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    <div id="about"></div>
+    <div class="bgaboutus">
+        <div class="container aboutUsDiv" >
+            <div class="row d-flex justify-content-evenly" style="border: 1px  black;">    
+
+                <div class="col-md-4 imgAboutUsdiv">
+                    <center>
+                        <img src="pics/1-removebg-preview.png" alt="" height="350px" width="350px" class="imgAboutUs" id="imgAboutUs">  
+                    </center>              
+                </div>     
+
+                <div class="col-md-8 contentAboutUsdiv">
+                    <span  class="container" id="contentAboutUs">
+                        Ease Nodus enables millions of underprivileged and unorganized blue-collar workforce in finding local employment, free of cost, directly from nearby employers, and without the middlemen in between.
+                        <br> <br> In turn, the platform makes it easy, quick, reliable & affordable for millions of employers to find & hire nearby blue-collar workers, again without the middlemen in between.  
+                    </span>                 
+                </div>     
+
+            </div>
+        </div>
+    </div>
+
+    ///////////////////////      PICTURES        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    <div class="container pictures">
+        <div class="row d-flex justify-content-evenly" >
+ 
+            <div class="col-md-2 mb-3" id="pic1" style="border: 1px black; width:270px;">
+                <img src="pics/worker1.jpg" alt="" class="img-fluid rounded-start rounded-end" style="height: 340px;">
+            </div>
+
+            <div class="col-md-2 mb-3" id="pic2" style="border: 1px black; width:270px; margin-top: 5%;">
+                <img src="pics/pics2.png" alt="" class="img-fluid rounded-start rounded-end" style="height: 340px;">
+            </div>
+
+            <div class="col-md-2 mb-3" id="pic3" style="border: 1px black; width:270px;">
+                <img src="pics/2.png" alt="" class="img-fluid rounded-start rounded-end" style="height: 340px;">
+            </div>
+
+            <div class="col-md-2 mb-3" id="pic4" style="border: 1px black; width:270px; margin-top: 3%;">
+                <img src="pics/pic1.png" alt="" class="img-fluid rounded-start rounded-end" style="height: 340px;">
+            </div>
+
+        </div>
+    </div>
+
+    ///////////////////////      SIGN UP LOGIN  IN PAGE           //////////////////////////////////
+
+    <div class="signuploginPage">
+        <div class="row d-flex justify-content-evenly" style="padding-bottom: 8%;">
+
+            <div class="col-md-6 mb-3" id="divsl11"> 
+
+                <div class="row">
+                    <div class="col-md-12 divsl1">
+                        LOOKING FOR STAFF? <br>
+                        LOOKING FOR WORK? <br>
+                        SIGN UP HERE! <br>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <center>
+                        <button type="button" class="btn btn-lg btn-success me-md-2 " data-bs-toggle="modal" data-bs-target="#signupModal">
+                            SIGN-UP
+                        </button></center>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 mb-3" id="divsl12">
+
+                <div class="row" >
+
+                    <div class="col-md-12 divsl1">
+
+                        START LOOKING FOR HELPERS. <br>
+                        FIND WORK SUITABLE FOR YOU.<br>
+                        LOGIN HERE TO GET STARTED! <br>
+                        
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12" >
+                    <center>
+                        <button type="button" class="btn btn-lg btn-success me-md-2 " data-bs-toggle="modal" data-bs-target="#loginModal">
+                            LOGIN
+                        </button></center>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    ///////////////////////      OUR SERVICES           /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    <div id="services"></div>
+    <div class="container services">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div style="margin: 3%;">
+                    <center><span class="spanservice" id="service"> OUR SERVICES </span></center>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-evenly servicecards">
+
+            <div class="col-md-2 mb-3" id="card1" style="width: 220px;">
+                <div class="card">
+                <img src="pics/settings.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text"></p>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3" id="card2" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3" id="card3" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-2 mb-3" id="card4" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    ///////////////////////      MEET THE DEVELOPERS           /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    <div id="developers"></div>
+    <div style="background: url(pics/bgforDevelpers1.jpg); background-attachment: fixed;">
+        <div class="container developers">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin: 2%;">
+                        <center><span class="spandeveloper" id="meet"> MEET THE DEVELOPERS </span></center>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-evenly">
+
+                <div class="card mb-3" id="meet1" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="pics/settings.png" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Jashandeep Kaur Sidhu</h5>
+                                <p class="card-text">B.Tech CSE student. <br> Web-Development Full-stack Training project. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3" id="meet2" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="pics/settings.png" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Rajesh Bansal</h5>
+                                <p class="card-text">Founder of Banglore Computer Education. <br> Author Real-Java book.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    
+
+    ///////////////////////      REACH US           /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    <div id="reach"></div>
+
+    <div class="container" style="border: 1px black; margin-bottom: 5%;">
+        <img src="pics/circle.png" alt="" width="200px" style="z-index: -1; position: absolute; background-attachment: fixed; border: 1px black;" id="behind">
+    </div>
+
+    <div class="container content2" style="align-items: left; margin-top: 4%; border: 1px black; margin-bottom: 2%;">
+        <img src="pics/quotation-mark.png" alt="" width="100px" style="align-content: flex-start;">
+        <span style="font-size: 40px; font-family: 'Times New Roman', Times, serif; margin-top: 3%; font-weight: 800; user-select: none;">REACH US</span>                
+    </div>
+
+    <div class="container" style="margin-bottom: 4%;">
+        <div class="row d-flex justify-content-evenly" id="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.8805713544966!2d74.95013405012294!3d30.211955917506767!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f07278a9%3A0x4a0d6293513f98ce!2sBanglore%20Computer%20Education!5e0!3m2!1sen!2sin!4v1661260134447!5m2!1sen!2sin" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+
+
+    ///////////////////////      FOOTER           ///////////////////////////////////////////////////////////////////////////////////////////
+
+    <footer>
+        <div style="background: rgb(0, 0, 0); color: white;">
+            
+            <div class="container aboutfooter">
+                <div class="row d-flex justify-content-around">
+
+                    <div class="col-md-4 mb-3 content1 aboutfooter">
+                        <img src="pics/1-removebg-preview.png" class="footerimg" alt="">
+                        <a class="navbar-brand spanfooter" href="#">
+                        <h3 class="spanfooter"><span>ease</span>Nodus</h3></a> <br>
+                        <p class="container spanfooter">WE ARE WHAT WE BELIEVE WE ARE.</p>
+                    </div>
+
+                    <div class="col-md-4  mb-3 content1 linksfooter">
+                        <a href="#about" class="spanfooter"><span class="litem2">ABOUT</span></a> <br><br>
+                        <a href="#services" class="spanfooter"><span class="litem2">OUR SERVICES</span></a> <br><br>
+                        <a href="#reach" class="spanfooter"><span class="litem2">REACH US</span></a> <br><br>
+                        <a href="#developers" class="spanfooter"><span class="litem2">MEET THE DEVELOPERS</span></a> <br>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <center>
+                            <span class="spanfooter">COPYRIGHT RESERVED</span>
+                        </center>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    ///////////////////////      SIGN UP           //////////////////////////////////////////////////////////////////////////////////////// class="fade"
+
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sign up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="email" placeholder="email">
+                          <label for="email">Email address</label>
+                            <span id="emailmsj"></span>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="mb-3 col-md-11  form-floating">
+                                <input type="password" class="form-control" id="password" value="" placeholder="password">
+                                <label for="password">&nbsp;Password</label>
+                                <span id="passwordmsj"></span>
+                            </div>
+                        
+                            
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fann" aria-hidden="true"></i> 
+                            </div> 
+                        </div>
+
+                        <div class="mb-3  form-floating">
+                            <select class="form-select" id="usertype" aria-label="Default select example" aria-placeholder="type">
+                                <option selected>Open this select menu</option>
+                                <option value="gold">HIRE SERVICE</option>
+                                <option value="silver">PROVIDE SERVICE</option>
+                                 <option value="admin">ADMIN</option> 
+                            </select>
+                            <label for="options">&nbsp;Member Type</label>
+                        </div> <br>
+
+                        <center>
+                        <div class="mb-3">
+                            <input type="button" value="Signup" class="btn btn-success" id="btnSignup">
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" id="" data-bs-toggle="modal" data-bs-target="#loginModal" style="text-decoration: none; color: olivedrab;" >Already a member? Login</a>
+                        </div>
+                        </center>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer" style="align-items: center;">
+                    <div id="result"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+     ///////////////////////      LOGIN           ////////////////////////////////////////////////////////////////////////////////////// 
+
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emaill" placeholder="email" autocomplete="false"> 
+                          <label for="emaill">&nbsp;Email address</label>
+                        </div> 
+                      
+                        <div class="row">
+                            <div class="mb-2 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="passwordl" value="" placeholder="password">
+                                <label for="passwordl">&nbsp;Password</label>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fan" aria-hidden="true"></i> 
+                            </div> 
+                        </div>                  
+
+                        <div class="mb-3">
+                           <center><input type="button" value="LOGIN" class="btn btn-success" id="btnLogin"></center>
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#signupModal" style="text-decoration: none; color: olivedrab;" ><center>Not a member? Sign-Up </center></a >
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="resultl"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+     ///////////////////////      ADMIN LOGIN MODAL           ////////////////////////////////////////////////////////////////////////////////////////////// 
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ADMIN PANEL</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emaila" placeholder="email" autocomplete="false"> 
+                          <label for="emaila">&nbsp;Email address</label>
+                          <span id="emailamsj"></span>
+                        </div> 
+                      
+                        <div class="row">
+                            <div class="mb-3 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="passworda" value="" placeholder="password">
+                                <label for="passworda">&nbsp;Password</label>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fana" aria-hidden="true"></i> 
+                            </div> 
+                        </div>    <br>              
+
+                        <div class="mb-3">
+                           <center><input type="button" value="LOGIN" class="btn btn-success" id="btnAdmin"></center>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="resulta"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+ -->
+
+
+THANK YOU
+
+<!-- /////////////////////           OLD ONE     /////////////////// -->
+
+<!-- 
+
+    <!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>INDEX</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btnSignup").click(function(){
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var usertype = $("#usertype").val();
+
+                var url = "/signupForm?email="+email+"&password="+password+"&usertype="+usertype;
+
+                if( email.length == 0 || password.length == 0 || usertype.change == false)
+                {
+                    alert("Fill the form");
+                }
+                else
+                {  
+                    $.get(url, function(resp){ //fire AJAX request
+                        $("#result").html(resp);
+                    })
+                }   
+            });
+
+            $("#btnLogin").click(function(){
+                var emaill = $("#emaill").val();
+                var passwordl = $("#passwordl").val();
+
+                var url = "/loginForm?email="+emaill+"&password="+passwordl;
+
+
+                $.getJSON(url, function(JSONresp){   //fire AJAX request
+                    // alert(JSON.stringify(JSONresp));
+
+                    if(JSONresp.length==0)
+                    {
+                        $("#resultl").html("Invalid User Login").css("color","red");
+                        $("#emaill").css("border","red 1px solid");
+                        $("#passwordl").css("border","red 1px solid");
+                    }
+                    else
+                    {
+                            if(JSONresp[0].usertype=="gold")
+                                window.location.href="goldUser.html";
+                            else
+                                window.location.href="silverUser.html";
+                    }
+                    
+                })
+            });
+
+            $("#btnAdmin").click(function(){
+                var email = $("#emaila").val();
+                var password = $("#passworda").val();
+
+                if( email == "jashandeepkaursidhu712@gmail.com" && password == "admin123")
+                window.location.href="admin.html";
+                else
+                $("#resulta").html("Invalid User Login").css("color","red");
+            })
+
+            $("#emaill").blur(function(){
+                var email = $("#emaill").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#emaill").css("border","green 1px solid");
+                    $("#emaillmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#emaill").css("border","red 1px solid");
+                    $("#emaillmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+         
+            $(".fann").mousedown(function(){
+                $("#password").prop("type", "text");
+                $(".fann").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fann").mouseup(function(){
+                $("#password").prop("type", "password");
+                $(".fann").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fan").mousedown(function(){
+                $("#passwordl").prop("type", "text");
+                $(".fan").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fan").mouseup(function(){
+                $("#passwordl").prop("type", "password");
+                $(".fan").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fana").mousedown(function(){
+                $("#passworda").prop("type", "text");
+                $(".fana").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fana").mouseup(function(){
+                $("#passworda").prop("type", "password");
+                $(".fana").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $("#email").blur(function(){
+                var email = $("#email").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#email").css("border","green 1px solid");
+                    $("#emailmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#email").css("border","red 1px solid");
+                    $("#emailmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+
+            $("#password").blur(function(){
+                var pw = $("#password").val();
+                var p = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ ;
+
+                if( p.test(pw) == true ){ 
+                    $("#password").css("border","green 1px solid");                   
+                    $("#passwordmsj").html("<p class='text-success'> </p> ");
+                }
+                else{
+                    $("#password").css("border","red 1px solid");
+                    $("#passwordmsj").html("<p class='text-danger'>Enter valid Password </p> ");
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .back
+    {
+        z-index: -1;
+        position: absolute;
+        /* position: fixed; */
+        visibility: visible;
+        background-size: cover;
+        height: auto;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        align-items: center;
+        justify-content: center;
+        /* right: 0; */
+        bottom: 0;
+        top: 0;
+        /* left: 0; */
+    }
+
+    @media (min-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: 100%;
+            height: auto;
+        }
+        #btncollapse
+        {
+            position: absolute;
+            right: 1%;
+            top: 10%;
+        }
+        #h4
+        {
+            display: none;
+        }
+    }
+
+    @media (max-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: auto;
+            height: 100%;
+        }
+        #signuplogin
+        {
+            /* display: none; */
+            visibility: hidden;
+            margin-right: 0;
+            width: auto;
+        }
+        #btncollapse
+        {
+            position: absolute;
+            right: 8%;
+            top: 10%;
+        }
+        .content h2
+        {
+            font-size: 80px;
+            font-weight: 250;
+        }
+        #h4
+        {
+            display: none;
+        }
+        .content p
+        {
+            font-size: 20px;
+        }
+        .cont 
+        {
+            margin-top: 20%;
+        }
+    }
+
+    @media(max-width: 767px)
+    {
+        #video
+        {
+            /* display: none; */
+            width: auto;
+            height: 100%;
+        }
+        #signuplogin
+        {
+            visibility: hidden;
+        }
+        .content
+        {
+            text-align: center;
+            padding: 10%;
+        }
+        #h2
+        {
+            display: none;
+        }
+        
+        #h4
+        {
+            display: contents;
+            font-size: 70px;
+            font-weight: 800;
+        }
+        #h4:hover
+        {
+            -webkit-text-stroke: 4px rgb(0, 0, 0);
+            color: transparent;
+            transform: scale(1);
+        }
+        .content p
+        {
+            font-size: 1px;
+        }
+        .cont 
+        {
+            margin: auto;
+        }
+        #hightlight
+        {
+            column-span: 2;
+        }
+    }
+    </style>
+
+    <style>
+        .content
+        {
+            margin: auto;
+            text-align: center;
+            /* background-color: #fff; */
+        }
+        .content1
+        {
+            margin-top: 1%;
+            text-align: center;
+            /* background-color: #fff; */
+        }
+        #h2
+        {
+            font-size: 100px;
+            font-weight: 800;
+            /* color: rgb(255, 255, 255); */
+            color: black;
+            margin: auto;
+            z-index: 2;
+        }
+        .content p
+        {
+            font-size: 30px;
+            color: rgb(0, 0, 0);
+        }
+        #h2:hover
+        {
+            /* font-family: Playfair Display,serif; */
+            /* -webkit-text-stroke: 4px white; */
+            -webkit-text-stroke: 4px rgb(0, 0, 0);
+            color: transparent;
+            transform: scale(1);
+        }
+        #gotop
+        {
+            width: 25px;
+            height: 25px;
+            background-image: url(pics/1.png);
+            background-size: contain;
+            border-radius: 50%;
+
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 5;
+        }
+        .litem:hover
+        {
+            border-bottom: green 2px solid;
+            cursor: pointer;
+        }
+        .litem2:hover
+        {
+            border-bottom: black 2px solid;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body style="background-color: rgb(244, 208, 129);">
+
+    <div id="gotopp" style="margin: 0;"></div>
+
+    <a href="#gotopp">
+        <div id="gotop"></div>
+    </a>
+
+    <div>
+        <video autoplay loop muted plays-inline class="back" id="video">
+          <source src="videos/workers.mp4" type="video/mp4">
+        </video>
+    </div> 
+
+    <!-- /////////////////// NAV BAR ////////////////////// 
+
+    <nav class="sticky-top navbar " style="background: rgba(209, 209, 209, 0.912);">
+        <div class="container-fluid">
+
+            <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;">
+
+            <!-- <a class="navbar-brand" href="#">Navbar</a>                     -->
+            <!-- <a class="navbar-brand" href="#" style="font-family: 'Times New Roman', Times, serif;">
+                <span style="font-family: Brush Script MT;">ease</span>Nodus</a>
+                    
+                <form class="d-flex justify-content-end" id="signuplogin" style="margin: 2px;  width: 80%; margin-right: 6%;"> 
+                    <a href="index2.html">index2</a>
+                    <button type="button" class="btn btn-outline-success me-md-2" style="margin: 2px;"  data-bs-toggle="modal" data-bs-target="#signupModal">
+                        SIGN-UP
+                    </button>
+                    <button type="button" class="btn btn-outline-success me-md-2" style="margin: 2px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        LOGIN
+                    </button>
+                    <button type="button" class="btn btn-outline-success" style="margin: 2px;" data-bs-toggle="modal" data-bs-target="#adminModal">
+                        ADMIN
+                    </button>
+                </form>
+
+                
+                <form class="d-flex justify-content-end" style="margin: 2px;" id="btncollapse"> 
+                    <button class="navbar-toggler" style="margin: 2px;" type="button" data-bs-toggle="offcanvas" data-bs-target=".offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </form>
+
+
+            <div class="offcanvas offcanvas-end justify-content-end offcanvasNavbar" tabindex="-1"  aria-labelledby="offcanvasNavbarLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="user-select: none;">CONTENTS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#" style="user-select: none;"><span class="litem">HOME</span></a>
+                        </li>     
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#about" style="user-select: none;"><span class="litem">OUR SERVICES</span></a>
+                        </li> 
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#developers" style="user-select: none;"><span class="litem">DEVELOPERS</span></a>
+                        </li> 
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#reach" style="user-select: none;"><span class="litem">REACH US</span></a>
+                        </li><br>
+                    
+                        <li class="nav-item">                       
+                            <button type="button" class="btn btn-outline-success me-md-2 " style="margin: 5px;"  data-bs-toggle="modal" data-bs-target="#signupModal">
+                                SIGN-UP
+                            </button>
+                      
+                            <button type="button" class="btn btn-outline-success" style="margin: 5px;" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                LOGIN
+                            </button>
+
+                            <button type="button" class="btn btn-outline-success" style="margin: 5px;" data-bs-toggle="modal" data-bs-target="#adminModal">
+                                ADMIN
+                            </button>
+                        </li>              
+                    
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+
+    <div class="container cont" style="margin: auto; margin-top: 11%; margin-bottom: 15%; padding: 3%;">
+        <!-- <div class="container content" style="background-color: rgba(203, 203, 203, 0.445); margin: auto;"> 
+        <div class="container content" style="margin: auto;">
+            <div style="background-color: rgb(227, 227, 227);">
+            <p class="container" id="h2" style="user-select: none;"><span> easeNodus </span></p>
+            <p class="container" id="h4" style="user-select: none;">easeNodus</p>
+            </div>
+
+            
+            <div style="background-color: rgb(226, 226, 226);">
+            <p class="container" style="font-family: 'Times New Roman', Times, serif; user-select: none;">WE ARE WHAT WE BELIEVE WE ARE.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="background-color: rgba(209, 209, 209, 0.912); margin: auto; margin-bottom: 6%; font-size: 25px; font-family: 'Times New Roman', Times, serif; user-select: none;">
+        <div class="row">
+
+            <div class="col-md-6" style="padding-left: 3%;">
+                <img src="pics/Add_a_subheading-removebg-preview.png" alt="">
+            </div>
+
+            <div class="col-md-6" style="padding: 3%; padding-top: 6%; text-align: justify;">
+
+                <p class="container" style="user-select: none;" >
+                    <span>
+                        Ease Nodus enables millions of underprivileged and unorganized blue-collar workforce in finding local employment, free of cost, directly from nearby employers, and without the middlemen in between.
+                    </span>
+                </p>
+
+                <p class="container" style="user-select: none;">
+                    <span>
+                        In turn, the platform makes it easy, quick, reliable & affordable for millions of employers to find & hire nearby blue-collar workers, again without the middlemen in between.                   
+                    </span>
+                </p>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div id="about" style="margin-bottom: 6%; width: 700px; height: 10px;"></div>
+
+    <div class="container" style="background-color: rgba(209, 209, 209, 0.912); margin: auto; margin-top: 8%; margin-bottom: 12%;" >
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div style="margin: 3%;">
+                    <center><span  style="margin: 3%; margin-bottom: 5%; margin-top: 5%; padding: 1%; font-size: 25px; font-weight: 400; user-select: none;"><b>OUR SERVICES</b></span></center>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-evenly" style="margin-bottom: 10%; padding-bottom: 10%; margin-top: 3%;">
+
+            <div class="col-md-2 mb-3" style="width: 220px;">
+                <div class="card">
+                <img src="pics/settings.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <p class="card-text"></p>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2 mb-3" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-2 mb-3" style="width: 220px;">
+                <div class="card" >
+                    <img src="pics/settings.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="developers" style="margin-bottom: 6%; width: 700px; height: 10px;"></div>
+
+    <div style="border: 1px black; margin-top: 1%;">
+        <div class="content" style="background-color: rgb(255, 255, 255); margin: auto;">
+        <span style="font-size: 30px; font-family: 'Times New Roman', Times, serif; font-weight: 800; user-select: none;">
+            MEET THE DEVELOPERS
+        </span>
+    </div>
+    </div>
+
+    <div class="container" style="margin-top: 12%; margin-bottom: 16%;">
+        <div class="row d-flex justify-content-evenly">
+
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="pics/settings.png" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="pics/settings.png" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="reach" style="margin-bottom: 6%; width: 700px; height: 10px;"></div>
+
+    <div style="border: 1px black; margin-top: 1%;">
+        <div class="content" style="background-color: rgb(255, 255, 255); margin: auto;">
+            <span style="font-size: 30px; font-family: 'Times New Roman', Times, serif; font-weight: 800; user-select: none;">
+                REACH US
+            </span>
+        </div>
+    </div>
+
+    <div class="container" style="margin-top: 2%; margin-bottom: 14%;">
+        <div class="row d-flex justify-content-evenly">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3447.8805713544966!2d74.95013405012294!3d30.211955917506767!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391732a4f07278a9%3A0x4a0d6293513f98ce!2sBanglore%20Computer%20Education!5e0!3m2!1sen!2sin!4v1661260134447!5m2!1sen!2sin" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+    <footer>
+        <div style="background: rgba(209, 209, 209, 0.912);">
+            
+            <div class="container" style="padding: 1%;">
+                <div class="row d-flex justify-content-around">
+
+                    <div class="col-md-4 mb-3 content1" style="height: 130px;" id="highlight">
+                        <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;">
+                        <a class="navbar-brand" href="#" style="font-family: 'Times New Roman', Times, serif; background-color: aliceblue; user-select: none;">
+                            <h3 style="user-select: none;"><span style="font-family: Brush Script MT; user-select: none;">ease</span>Nodus</h3></a>
+                        <p class="container" style="font-family: 'Times New Roman', Times, serif; user-select: none;">WE ARE WHAT WE BELIEVE WE ARE.</p>
+                    </div>
+
+                    <div class="col-md-4  mb-3 content1" style="height: 130px;" id="content">
+                        <a href="#about" style="text-decoration: none; color: black; user-select: none;"><span class="litem2">ABOUT</span></a><br><br>
+                        <a href="#developers" style="text-decoration: none; color: black; user-select: none;"><span class="litem2">MEET THE DEVELOPERS</span></a><br><br>
+                        <span style="font-family: 'Times New Roman', Times, serif; user-select: none;">COPYRIGHT RESERVED</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- ////////  SIGN UP ///////////////////////// class="fade
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sign up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="email" placeholder="email">
+                          <label for="email">Email address</label>
+                            <span id="emailmsj"></span>
+                        </div>
+                     
+                        <div class="row">
+                            <div class="mb-3 col-md-11  form-floating">
+                                <input type="password" class="form-control" id="password" value="" placeholder="password">
+                                <label for="password">&nbsp;Password</label>
+                                <span id="passwordmsj"></span>
+                            </div>
+                        
+                            
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fann" aria-hidden="true"></i> 
+                            </div> 
+                        </div>
+
+                        <div class="mb-3  form-floating">
+                            <select class="form-select" id="usertype" aria-label="Default select example" aria-placeholder="type">
+                                <option selected>Open this select menu</option>
+                                <option value="gold">HIRE SERVICE</option>
+                                <option value="silver">PROVIDE SERVICE</option>
+                                <option value="admin">ADMIN</option> 
+                            </select>
+                            <label for="options">&nbsp;Member Type</label>
+                        </div> <br>
+
+                        <center>
+                        <div class="mb-3">
+                            <input type="button" value="Signup" class="btn btn-success" id="btnSignup">
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" id="" data-bs-toggle="modal" data-bs-target="#loginModal" style="text-decoration: none; color: olivedrab;" >Already a member? Login</a>
+                        </div>
+                        </center>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer" style="align-items: center;">
+                    <div id="result"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ////////  LOGIN ///////////////////////// 
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emaill" placeholder="email" autocomplete="false"> 
+                          <label for="emaill">&nbsp;Email address</label>
+                        </div> 
+                      
+                        <div class="row">
+                            <div class="mb-2 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="passwordl" value="" placeholder="password">
+                                <label for="passwordl">&nbsp;Password</label>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fan" aria-hidden="true"></i> 
+                            </div> 
+                        </div>                  
+
+                        <div class="mb-3">
+                           <center><input type="button" value="LOGIN" class="btn btn-success" id="btnLogin"></center>
+                        </div>
+
+                        <div class="mb-3">
+                            <a href="" data-bs-toggle="modal" data-bs-target="#signupModal" style="text-decoration: none; color: olivedrab;" ><center>Not a member? Sign-Up </center></a >
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="resultl"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ///////  ADMIN LOGIN MODAL   
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ADMIN PANEL</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emaila" placeholder="email" autocomplete="false"> 
+                          <label for="emaila">&nbsp;Email address</label>
+                        </div> 
+                      
+                        <div class="row">
+                            <div class="mb-3 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="passworda" value="" placeholder="password">
+                                <label for="passworda">&nbsp;Password</label>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa fa-eye-slash fana" aria-hidden="true"></i> 
+                            </div> 
+                        </div>    <br>              
+
+                        <div class="mb-3">
+                           <center><input type="button" value="LOGIN" class="btn btn-success" id="btnAdmin"></center>
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <div id="resulta"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+ -->

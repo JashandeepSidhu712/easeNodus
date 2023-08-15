@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FIND WORK</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/angular.min.js"></script>
+
+    <style>
+        .back
+    {
+        z-index: -1;
+        /* position: absolute; */
+        position: fixed;
+        visibility: visible;
+        background-size: cover;
+        height: auto;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        align-items: center;
+        justify-content: center;
+        /* right: 0; */
+        bottom: 0;
+        top: 0;
+        /* left: 0; */
+    }
+
+    @media (min-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: 100%;
+            height: auto;
+        }
+        #btncollapse
+        {
+            position: absolute;
+            right: 1%;
+            top: 10%;
+        }
+    }
+
+    @media (max-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: auto;
+            height: 100%;
+        }
+        #btncollapse
+        {
+            position: absolute;
+            right: 8%;
+            top: 10%;
+        }
+    }
+
+    @media(max-width: 767px)
+    {
+        #video
+        {
+            width: auto;
+            height: 100%;
+        }
+    }
+    .litem:hover
+    {
+        border-bottom: purple 2px solid;
+        cursor: pointer;
+    }
+    .litem2:hover
+    {
+        border-bottom: rgb(8, 67, 0) 2px solid;
+        cursor: pointer;
+    }
+    </style>
+
+    <script>
+        var adminModule = angular.module("adminModule",[]);
+        adminModule.controller("adminController",function($scope,$http){
+            $scope.x = "working";
+
+            $scope.fetchCities=function()
+            {
+                $http.get("/fetch-cities-bylabour").then(fxSuccess,fxFail);
+                function fxSuccess(response)
+                {
+                    // alert(JSON.stringify(response.data));
+                    $scope.cityJSON=response.data;
+
+                }
+                function fxFail(response)
+                {
+                    alert(response.data);
+                }
+            }
+
+            $scope.fetchCategory=function()
+            {
+                $http.get("/fetch-category-bylabour?city="+$scope.cities).then(fxSuccess,fxFail);
+                function fxSuccess(response)
+                {
+                    // alert(JSON.stringify(response.data));
+                    $scope.categoryJSON=response.data;
+
+                }
+                function fxFail(response)
+                {
+                    alert(response.data);
+                }
+            }
+
+            $scope.fetchWork=function()
+            {
+                
+                $http.get("/fetchWork?category="+$scope.category+"&cities="+$scope.cities).then(success, fail);
+                // alert();
+                function success(response)
+                {
+                    // alert(JSON.stringify(response.data));
+
+                    $scope.fetchWorkersJSON=response.data;
+                }
+                function fail(response)
+                {
+                    alert(response.data);
+                }
+            }
+
+            
+            $scope.doShowDetails=function(email)
+            {
+                $http.get("/fetchDetailsEmail?email="+email).then(success, fail);
+
+                function success(response)
+                {
+                    // alert(JSON.stringify(response.data));
+
+                    $scope.fetchJSON=response.data;
+                }
+                function fail(response)
+                {
+                    alert(response.data);
+                }
+            }
+
+        })
+    </script>
+
+</head>
+<body ng-app="adminModule" ng-controller="adminController" ng-init="fetchCities();" >
+
+    <!-- ////////////// BACKGROUND VIDEO /////////// -->
+
+    <div>
+        <video autoplay loop muted plays-inline class="back" id="video">
+          <source src="videos/workers.mp4" type="video/mp4">
+        </video>
+    </div> 
+
+    <!-- ///////////////////   NAV BAR ////////////////////// -->
+
+    <nav class="sticky-top navbar " style="background: rgba(209, 209, 209, 0.912);">
+        <div class="container-fluid">
+            
+            <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;" >
+                        
+            <form class="d-flex justify-content-end" style="margin: 2px;" id="btncollapse"> 
+                <button class="navbar-toggler" style="margin: 2px;" type="button" data-bs-toggle="offcanvas" data-bs-target=".offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </form>
+
+
+            <div class="offcanvas offcanvas-end justify-content-end offcanvasNavbar" tabindex="-1"  aria-labelledby="offcanvasNavbarLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="user-select: none;">CONTENTS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html" style="user-select: none;"><span class="litem">HOME</span></a>
+                        </li>  
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="silverUser.html" style="user-select: none;"><span class="litem">DASHBOARD</span></a>
+                        </li> 
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html#about" target="_blank" style="user-select: none;"><span class="litem">OUR SERVICES</span></a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html#developers" target="_blank" style="user-select: none;"><span class="litem">MEET THE DEVELOPERS</span></a>
+                        </li>  
+                    
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!--///////////////////     HEADING FIND WORK   ////////////////////////////////// -->
+
+    <div style="margin: 3%;">
+        <center><span  style="background: rgba(233, 233, 233, 0.868); margin: 3%; padding: 1%; font-size: 25px; font-weight: 400; user-select: none;"><b>FIND WORK</b></span></center>
+    </div>
+
+    <!-- /////   CONTENT TO FIND WORK    ///////////////// -->
+   
+    <div class="container" style="background: rgba(209, 209, 209, 0.914); padding: 20px; height: auto; margin-top: 1%; margin-bottom: 4%;" id="profile">
+
+        <div class="row" style="border: 1px black ; margin: 0; padding-bottom: 0%; padding-top: 1%;" >
+            
+        <!-- ///////  CITY   /////////////////-->
+
+            <div class="col-md-5 offset-md-1 form-floating">                                              
+                <select ng-model="cities" class="form-select" ng-change="fetchCategory();">
+                    <option ng-repeat="obj in cityJSON" value="{{obj.city}}">{{obj.city}}</option>
+                </select>
+                <label>&nbsp;&nbsp;Select City</label>
+            </div>
+
+        <!--  /////////// CATEGORY   //////////// -->
+
+            <div class="col-md-5 form-floating" >                                                            
+                <select ng-model="category" class="form-select">
+                    <option ng-repeat="obj in categoryJSON" value="{{obj.category}}">{{obj.category}}</option>
+                </select>
+                <label>&nbsp;&nbsp;Select Category</label>
+            </div>
+
+        </div>    
+
+         <!--///////  BUTTON SEARCH WORK   /////////////-->
+
+        <div class="row" style="margin-top: 2%; border: black 1px;">                               
+            <div class="col-md-6 offset-md-3 mb-3" style="border: 1px  black;">
+               <center> <input type="button" value="SEARCH WORK" class="btn btn-success" ng-click="fetchWork(); "></center>
+            </div>
+        </div>
+
+        <!--  //////    CARD DETAILS+IMG ///////////// -->
+
+        <div class="container" style="margin-top: 5%;">                                              
+        <div class="row d-flex justify-content-evenly">
+            <div class="col-md-3 mb-3" ng-repeat="obj in fetchWorkersJSON" ng-repeat="obj in fetchProfilePic" style="width: 220px;">
+                <div class="card">-
+                    <img src="uploads/{{obj.profileimg}}" class="card-img-top" alt="...">
+                    <br>
+                    <div class="card-body d-flex justify-content-around">
+                        <div >
+                            <div class="card-title">Email: </div>
+                            <div class="card-title">Work: </div>
+                        </div>
+                        <div>
+                            <div class="card-title">{{obj.email}}</div>
+                            <div class="card-title">{{obj.explainwork}} </div>
+                        </div>
+                    </div>
+                    <br>
+                      <center> <input type="button" value="Details" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#detailsModal" ng-click="doShowDetails(obj.email);">
+                      &nbsp;&nbsp;<a href="tel:{{obj.contact}}"><img src="pics/call.jpg" alt="" width="30px" height="30px" style="border-radius: 50%;"></a></center>
+                    <br>
+                </div>
+            </div>
+        </div>
+        </div>
+  
+    </div>
+
+    <!-- /////// MODAL DETAILS /////////// -->
+
+    <div class="modal fade"  id="detailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body" ng-repeat="obj in fetchJSON">
+                <div>
+                    <center>
+                    <img src="uploads/{{obj.profileimg}}" alt="" width="100px" height="100px" style="border-radius: 50%;"> <br><br>
+                </center>
+                </div>
+              <div class="d-flex justify-content-around" style="background-color: rgb(241, 241, 241);">
+                <div><br>
+                    Email <br><br>
+                    Category <br><br>
+                    Work <br><br>
+                    Contact <br><br>
+                    Material <br><br>
+                    Work-location <br><br>
+                    City <br><br>
+                    Work to start on <br><br>
+                    Work to be done before <br><br>
+                </div><br>
+                <div><br>
+                    {{obj.email}} <br><br>
+                    {{obj.category}} <br><br>
+                    {{obj.explainwork}} <br><br> 
+                    {{obj.contact}} &nbsp;&nbsp; <a href="tel:{{obj.contact}}"><img src="pics/call.jpg" alt="" width="30px" height="30px" style="border-radius: 50%;"></a><br><br>
+                    {{obj.material}} <br><br>
+                    {{obj.worklocation}} <br><br>
+                    {{obj.city}} <br><br>
+                    {{obj.startworkon}} <br><br>
+                    {{obj.finishworkbefore}} <br><br>
+                </div><br>
+                </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+</body>

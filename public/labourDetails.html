@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LABOUR DETAILS PANEL</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="js/angular.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+
+            $("#btnSignup").click(function(){
+                var email = $("#email").val();
+                var password = $("#password").val();
+                var usertype = $("#usertype").val();
+
+                var url = "/signupForm?email="+email+"&password="+password+"&usertype="+usertype;
+
+                if( email.length == 0 || password.length == 0 || usertype.change == false)
+                {
+                    alert("Fill the form");
+                }
+                else
+                {  
+                    $.get(url, function(resp){ //fire AJAX request
+                        $("#result").html(resp);
+                    })
+                }   
+            });
+
+            $("#btnLogin").click(function(){
+                var emaill = $("#emaill").val();
+                var passwordl = $("#passwordl").val();
+
+                var url = "/loginForm?email="+emaill+"&password="+passwordl;
+
+
+                $.getJSON(url, function(JSONresp){   //fire AJAX request
+                    alert(JSON.stringify(JSONresp));
+
+                    if(JSONresp.length == 0)
+                        $("#resultl").html("Invalid User Id.");
+                    else
+                    {
+                            if(JSONresp[0].usertype=="gold")
+                                window.location.href="goldUser.html";
+                            else if(JSONresp[0].usertype=="silver")
+                                window.location.href="silverUser.html";
+                            else
+                                window.location.href="admin.html";
+                    }
+                    
+                })
+            });
+         
+            $(".fa").mousedown(function(){
+                $("#passwordl").prop("type", "text");
+                $("#password").prop("type", "text");
+                $(".fa").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fa").mouseup(function(){
+                $("#passwordl").prop("type", "password");
+                $("#password").prop("type", "password");
+                $(".fa").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $("#email").blur(function(){
+                var email = $("#email").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){                    
+                    $("#emailmsj").html("  ✔️").addClass("valid").removeClass("invalid");
+                    
+                }
+                else{
+                    $("#emailmsj").html("  ✖️").addClass("invalid").removeClass("valid");
+                    $("#emailmsj").focus();
+                    alert("email must include @gmail.com");
+                }
+                
+            });
+
+            $("#password").blur(function(){
+                var pw = $("#password").val();
+                var p = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ ;
+
+                if( p.test(pw) == true ){                    
+                    $("#passwordmsj").html("  ✔️").addClass("valid").removeClass("invalid");
+                    // $("#btnSignup").removeAttr("disabled");
+                }
+                else{
+                    $("#passwordmsj").html("  ✖️").addClass("invalid").removeClass("valid");
+                    alert("password must include capital keywords, small keywords, numeric digits and any symbol");
+                }
+            });
+        });
+    </script>
+
+    <style>
+        .back
+    {
+        z-index: -1;
+        /* position: absolute; */
+        position: fixed;
+        visibility: visible;
+        background-size: cover;
+        height: auto;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        align-items: center;
+        justify-content: center;
+        /* right: 0; */
+        bottom: 0;
+        top: 0;
+        /* left: 0; */
+    }
+
+    @media (min-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: 100%;
+            height: auto;
+        }
+        #btncollapse
+        {
+            position: absolute;
+            right: 1%;
+            top: 10%;
+        }
+    }
+
+    @media (max-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: auto;
+            height: 100%;
+        }
+        #signuplogin
+        {
+            /* display: none; */
+            visibility: hidden;
+            margin-right: 0;
+            width: auto;
+        }
+        #btncollapse
+        {
+            position: absolute;
+            right: 8%;
+            top: 10%;
+        }
+    }
+
+    @media(max-width: 767px)
+    {
+        #video
+        {
+            display: none;
+        }
+        body
+        {
+            background-image: url(pics/bg2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        #signuplogin
+        {
+            visibility: hidden;
+        }
+    }
+    .litem:hover
+    {
+        border-bottom: purple 2px solid;
+        cursor: pointer;
+    }
+    .litem2:hover
+    {
+        border-bottom: rgb(0, 0, 0) 2px solid;
+        cursor: pointer;
+    }
+    </style>
+
+    <script>
+        var adminModule = angular.module("adminModule",[]);
+        adminModule.controller("adminController",function($scope,$http){
+            $scope.x = "working";
+
+            // //// BUTTON FETCH AND SHOW   ///////////////////////
+
+            $scope.fetchandshow=function()
+            {
+                $http.get("/GetLabourDetails").then(success, fail);
+
+                function success(response)
+                {
+                    $scope.JSONlabour=response.data;
+                }
+                function fail(response)
+                {
+                    alert(response.data);
+                }
+            }
+
+            // //// DELETE    ////////////////////////
+            
+            $scope.doDelete=function(email){
+                if(confirm("Sure you want to delete?")==false)
+                return;
+
+                $http.get("/deleteLabour-record?email="+email).then(success, fail);
+
+                function success(response)
+                {
+                    alert(response.data);
+                    $scope.fetchandshow();
+                }
+                function fail(response)
+                {
+                    alert(response.data);
+                }
+            }
+        })
+    </script>
+
+</head>
+<body ng-app="adminModule" ng-controller="adminController" >
+
+    <!-- ////////////      BACKGROUND VIDEO //////////////////////// -->
+    <div>
+        <video autoplay loop muted plays-inline class="back" id="video">
+          <source src="videos/workers.mp4" type="video/mp4">
+        </video>
+    </div> 
+
+     <!-- /////////////////// NAV BAR ////////////////////// -->
+
+     <nav class="sticky-top navbar " style="background: rgba(209, 209, 209, 0.912);">
+        <div class="container-fluid">
+
+            <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%;">
+
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="admin.html" style="user-select: none;">&nbsp;&nbsp;&nbsp;<span class="litem2">Admin-Panel</span></a>
+                </li>       
+            </ul>
+
+                
+                <form class="d-flex justify-content-end" style="margin: 2px;" id="btncollapse"> 
+                    <button class="navbar-toggler" style="margin: 2px;" type="button" data-bs-toggle="offcanvas" data-bs-target=".offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </form>
+
+
+            <div class="offcanvas offcanvas-end justify-content-end offcanvasNavbar" tabindex="-1"  aria-labelledby="offcanvasNavbarLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="user-select: none;">CONTENTS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html" style="user-select: none;"><span class="litem">HOME</span></a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="admin.html" style="user-select: none;"><span class="litem">ADMIN PANEL</span></a>
+                        </li> 
+                    
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html#about" target="_blank" style="user-select: none;"> <span class="litem">OUR SERVICES</span> </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html#developers" target="_blank" style="user-select: none;"> <span class="litem">MEET THE DEVELOPERS</span> </a>
+                        </li>            
+                    
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- //////////////// HEADING LABOUR DETAILS/////////////////////////// -->
+
+    <div style="margin: 3%;">
+        <center><span  style="background: rgba(233, 233, 233, 0.868); margin: 3%; padding: 1%; font-size: 25px; font-weight: 400; user-select: none;"><b>LABOUR DETAILS</b></span></center>
+    </div>
+
+    <!-- //////////////// BUTTON TO GET RECORDS /////////////// -->
+
+    <center><input type="button" class="btn btn-success" value="GET Records" ng-click="fetchandshow();" style="margin-top: 1%; margin-bottom: 1%;"></center> 
+
+    <!-- //////////////// TABLE ////////////////////////// -->
+
+    <div class="container" style=" width: 100%; display: inline;">
+        <div class="row" style="display: inline;">
+            <div class="col-md-12">
+
+                <table class="table tab" style="background-color: rgba(233, 233, 233, 0.868); border: 1px solid black; font-size: 10px;" rules="all" >
+                  <thead class="table-light">
+                    <tr style="user-select: none;">
+                      <th>#</th>
+                      <th>Email</th>
+                      <th>Name</th>
+                      <th>pic</th>
+                      <th>Category</th>
+                      <th>Contact</th>
+                      <th>Gender</th>
+                      <th>Address</th>
+                      <th>City</th>
+                      <th>Experience</th>
+                      <th>ID Proof</th>
+                      <th>Other info</th>
+                      <th>Date join</th>
+                      <th>Operation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="obj in JSONlabour">
+                      <td>{{$index+1}}</td>
+                      <td>{{obj.email}}</td>
+                      <td>{{obj.name}}</td>
+                      <td>{{obj.profileimg}}</td>
+                      <td>{{obj.category}}</td>
+                      <td>{{obj.contact}}</td>
+                      <td>{{obj.gender}}</td>
+                      <td>{{obj.address}}</td>
+                      <td>{{obj.city}}</td>
+                      <td>{{obj.experience}}</td>
+                      <td>{{obj.proof}}</td>
+                      <td>{{obj.otherinfo}}</td>
+                      <td>{{obj.lastedit}}</td>
+                      <td>
+                        <input type="button" value="ELIMINATE" class="btn btn-success" ng-click="doDelete(obj.email);">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</body>

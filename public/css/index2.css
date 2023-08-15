@@ -1,0 +1,299 @@
+.back
+{
+    z-index: -1;
+    position: absolute;
+    /* position: fixed; */
+    visibility: visible;
+    background-size: cover;
+    height: auto;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    /* bottom: 0; */
+    top: 0;
+    /* left: 0; */
+}
+
+@media (min-aspect-ratio: 16/9)
+{
+    #video
+    {
+        width: 100%;
+        height: auto;
+    }
+    #btncollapse
+    {
+        position: absolute;
+        right: 1%;
+        top: 10%;
+    }
+    #h4
+    {
+        display: none;
+    }
+}
+
+@media (max-aspect-ratio: 16/9)
+{
+    #video
+    {
+        width: auto;
+        height: 100%;
+    }
+    #signuplogin
+    {
+        /* display: none; */
+        visibility: hidden;
+        margin-right: 0;
+        width: auto;
+    }
+    #btncollapse
+    {
+        position: absolute;
+        right: 8%;
+        top: 10%;
+    }
+    .content h2
+    {
+        font-size: 80px;
+        font-weight: 250;
+    }
+    #h4
+    {
+        display: none;
+    }
+    .content p
+    {
+        font-size: 20px;
+    }
+    .cont 
+    {
+        margin-top: 20%;
+    }
+}
+
+@media(max-width: 767px)
+{
+    #video
+    {
+        /* display: none; */
+        width: auto;
+        height: 100%;
+    }
+    #signuplogin
+    {
+        visibility: hidden;
+    }
+    .content
+    {
+        text-align: center;
+        padding: 10%;
+    }
+    #h2
+    {
+        display: none;
+    }
+    
+    #h4
+    {
+        display: contents;
+        font-size: 70px;
+        font-weight: 800;
+        margin: auto;
+        z-index: 2;
+        color: white;
+        -webkit-text-stroke: 4px rgb(0, 0, 0);
+    }
+    #h4:hover
+    {
+        -webkit-text-stroke: 4px rgb(0, 0, 0);
+        color: transparent;
+        transform: scale(1);
+    }
+    .content p
+    {
+        font-size: 1px;
+    }
+    .cont 
+    {
+        margin: auto;
+    }
+    #hightlight
+    {
+        column-span: 2;
+    }
+}
+
+.content
+{
+    margin: auto;
+    text-align: center;
+}
+.content2
+{
+    padding-left: 5%;
+}
+.content1
+{
+    margin-top: 1%;
+    text-align: center;
+}
+
+.content p
+{
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+}
+#gotop
+{
+    width: 25px;
+    height: 25px;
+    background-image: url(pics/1.png);
+    background-size: contain;
+    border-radius: 50%;
+
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 5;
+}
+.litem:hover
+{
+    border-bottom: green 2px solid;
+    cursor: pointer;
+}
+.litem2:hover
+{
+    border-bottom: black 2px solid;
+    cursor: pointer;
+}
+#pic1, #pic2, #pic3, #pic4, #map, #behind, #imgAboutUs, #meet, #meet1, #meet2, #contentAboutUs, #divsl11, #divsl12, #service
+{
+    opacity: 0;
+}
+#pic1.animated, #pic2.animated, #pic3.animated, #pic4.animated, #map.animated, #behind.animated, #imgAboutUs.animated, #meet.animated, #meet1.animated, #meet2.animated, #contentAboutUs.animated, #divsl11.animated, #divsl12.animated, #service.animated
+{
+    opacity: 1;
+}
+#card1, #card2, #card3, #card4
+{
+    opacity: 0;
+}
+#card1.animated, #card2.animated, #card3.animated, #card4.animated
+{
+    opacity: 1;
+}
+.headingDiv
+{
+    margin: auto;
+    margin-top: 18%;
+    margin-bottom: 20%;
+}
+#h2
+{
+    font-size: 100px;
+    font-weight: 800;
+    margin: auto;
+    z-index: 2;
+    color: white;
+    -webkit-text-stroke: 4px rgb(0, 0, 0);
+}
+#h2:hover
+{
+    -webkit-text-stroke: 4px rgb(255, 255, 255);
+    color: transparent;
+}
+.description
+{
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    font-size: 25px;
+    font-weight: 400;
+    margin: auto;
+}
+.description:hover
+{
+    font-size: 30px;
+    font-weight: 300;
+}
+.bgaboutus
+{
+    background: url(../pics/bg7.jpg);    
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-size: 130%; */
+}
+.aboutUsDiv
+{
+    /* background-color: beige; */
+    font-size: 22px;
+    font-family: 'Times New Roman', Times, serif;
+    border: 1px black;
+}
+.imgAboutUsdiv
+{
+    border: 1px black;
+}
+.contentAboutUsdiv
+{
+    border: 1px black;
+    text-align: justify;
+    padding: 5%;
+}
+.signuploginPage
+{
+    background: url(../pics/bg2.jpg);
+    background-attachment: fixed;
+    background-size: cover;
+}
+.divsl1
+{
+    font-size: 30px;
+    font-weight: 300;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: auto;
+    text-align: center;
+    padding: 8%;
+    color: white;
+}
+.services
+{
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 2%;
+    background: url(../pics/bg9.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.spanservice
+{
+    margin: 3%;
+    margin-bottom: 5%;
+    margin-top: 7%;
+    font-size: 40px;
+    font-weight: 600;
+    user-select: none;
+    color: white;
+}
+.developers
+{
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 5%;
+    padding-top: 3%;
+}
+.spandeveloper
+{
+    margin: 3%;
+    margin-bottom: 5%;
+    margin-top: 7%;
+    font-size: 50px;
+    font-weight: 900;
+    user-select: none;
+    color: white;
+}

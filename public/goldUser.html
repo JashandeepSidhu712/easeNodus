@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GOLD USER | HIRE SERVICE</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.min.js" integrity="sha512-CEiA+78TpP9KAIPzqBvxUv8hy41jyI3f2uHi7DGp/Y/Ka973qgSdybNegWFciqh6GrN2UePx2KkflnQUbUhNIA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css"/>
+
+    <script>
+        $(document).ready(function(){
+            
+            $("#emailp").blur(function(){
+                var email = $("#emailp").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){        
+                    $("#emailp").css("border","green 1px solid");
+                    $("#emailmsj").html("<p class='text-success'></p> ");
+                }
+                else{
+                    $("#emailp").css("border","red 1px solid");
+                    $("#emailmsj").html("<p class='text-danger'>Enter valid Email Address </p> ");
+                } 
+            });
+
+            $("#btnChangePwd").click(function(){
+                var email = $("#emailp").val();
+                var oldpassword = $("#passwordp").val();
+                var newpassword = $("#newpasswordp").val();
+                // alert("1");
+
+                var url = "/CheckDataInTable?email="+email+"&password="+oldpassword;
+                // alert("2");
+
+                $.getJSON(url, function(JSONresp){   //fire AJAX request
+                    // alert("in ajax request");
+                    // alert(JSON.stringify(JSONresp));
+
+                    if(JSONresp.length == 0)
+                        $("#resultp").html("<p class='text-danger'>INVALID USER</p> ");
+                    else
+                    {
+                        // alert("jsonresp accepted");
+                        // $("#resultp").html("Welcome");
+                        var url = "/updatePassword?email="+email+"&oldpassword="+oldpassword+"&newpassword="+newpassword;
+                        // alert("in new url");
+                        // alert("out");
+
+                        $.getJSON(url, function(JSONresp1){
+                            // alert("in ajax query 2");
+                            // alert(JSON.stringify(JSONresp1));
+                            // alert("accepted");
+
+                            if(JSONresp1.length == 0)
+                            {
+                                $("#resultp").html("<p class='text-danger'>NOT UPDATED</p> ");
+                            }
+                            else
+                            {                 
+                                $("#emailp").css("border","green 1px solid");
+                                $("#passwordp").css("border","green 1px solid");
+                                $("#newpasswordp").css("border","green 1px solid");               
+                                $("#resultp").html("<p class='text-success'> UPDATED SUCCESSFULLY </p> ");
+                            }
+
+                        });
+                    }
+                });
+
+            });
+
+            var activeUser = localStorage.getItem("activeUser");
+
+            if(activeUser == null)
+            window.location.replace("index.html");
+
+            $("#btnLogout").click(function(){
+                localStorage.removeItem("activeUser");
+                window.location.replace("index.html");
+            });
+
+            $("#welcomeuser").html("Welcome: "+activeUser);
+            $("#emailp").val(activeUser).prop("readonly","true");
+         
+            $(".fa1").mousedown(function(){
+                $("#passwordp").prop("type", "text");
+                $(".fa1").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fa1").mouseup(function(){
+                $("#passwordp").prop("type", "password");
+                $(".fa1").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $(".fan").mousedown(function(){
+                $("#newpasswordp").prop("type", "text");
+                $(".fan").removeClass("fa-eye-slash").addClass("fa-eye");
+            });
+
+            $(".fan").mouseup(function(){
+                $("#newpasswordp").prop("type", "password");
+                $(".fan").removeClass("fa-eye").addClass("fa-eye-slash");
+            });
+
+            $("#emailp").blur(function(){
+                var email = $("#emailp").val();
+                var r=/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/   ;
+
+                if( r.test(email) == true ){                    
+                    $("#emailmsjp").html("  ✔️").addClass("valid").removeClass("invalid");
+                }
+                else{
+                    $("#emailmsjp").html("  ✖️").addClass("invalid").removeClass("valid");
+                    $("#emailmsj").focus();
+                    alert("email must include @gmail.com");
+                }
+                
+            });
+
+            $("#passwordp").blur(function(){
+                var pw = $("#passwordp").val();
+                var p = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ ;
+
+                if( p.test(pw) == true ){ 
+                    $("#passwordp").css("border","green 1px solid");                   
+                    $("#oldmsj").html("<p class='text-success'> </p> ");
+                }
+                else{
+                    $("#passwordp").css("border","red 1px solid");
+                    $("#oldmsj").html("<p class='text-danger'>Enter valid Password </p> ");
+                }
+            });
+
+            $("#newpasswordp").blur(function(){
+                var pw = $("#newpasswordp").val();
+                var p = /(?=^.{8,}$)(?=.*\d)(?=.*[!@#$%^&*]+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ ;
+
+                if( p.test(pw) == true ){ 
+                    $("#newpasswordp").css("border","green 1px solid");                   
+                    $("#newmsj").html("<p class='text-success'> </p> ");
+                }
+                else{
+                    $("#newpasswordp").css("border","red 1px solid");
+                    $("#newmsj").html("<p class='text-danger'>Enter valid Password </p> ");
+                }
+            });
+
+            $("#card1").waypoint(function(direction){
+                $("#card1").addClass("animated flipInY");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card2").waypoint(function(direction){
+                $("#card2").addClass("animated flipInY");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card3").waypoint(function(direction){
+                $("#card3").addClass("animated flipInY");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card4").waypoint(function(direction){
+                $("#card4").addClass("animated flipInY");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+            $("#card5").waypoint(function(direction){
+                $("#card5").addClass("animated flipInY");
+            },{
+                offset: 'bottom-in-view'
+            });
+
+ 
+        });
+    </script>
+
+    <style>
+        .back
+    {
+        z-index: -1;
+        /* position: absolute; */
+        position: fixed;
+        visibility: visible;
+        background-size: cover;
+        height: auto;
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        align-items: center;
+        justify-content: center;
+        /* right: 0; */
+        bottom: 0;
+        top: 0;
+        /* left: 0; */
+    }
+    @media (min-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: 100%;
+            height: auto;
+        }
+    }
+    @media (max-aspect-ratio: 16/9)
+    {
+        #video
+        {
+            width: auto;
+            height: 100%;
+        }
+    }
+    @media(max-width: 500px)
+    {
+        #video
+        {
+            display: none;
+        }
+        body
+        {
+            background-image: url(pics/bg2.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    }
+    .litem:hover
+    {
+        border-bottom: purple 2px solid;
+        cursor: pointer;
+    }
+    .litem2:hover
+    {
+        border-bottom: rgb(8, 67, 0) 2px solid;
+        cursor: pointer;
+    }
+    #card1, #card2, #card3, #card4, #card5
+    {
+        opacity: 0;
+    }
+    #card1.animated, #card2.animated, #card3.animated, #card4.animated, #card5.animated
+    {
+        opacity: 1;
+        animation-duration: 5s;
+        animation-delay: 0.2s;
+    }
+    </style>
+
+</head>
+<body>
+
+    <div>
+        <video autoplay loop muted plays-inline class="back" id="video">
+          <source src="videos/workers.mp4" type="video/mp4">
+        </video>
+      </div> 
+
+     <!-- /////////////////// NAV BAR ////////////////////// -->
+     <nav class="sticky-top navbar " style="background: rgba(209, 209, 209, 0.912);">
+        <div class="container-fluid">
+            
+            <img src="pics/1-removebg-preview.png" alt="" width="50px" height="50px" style="border-radius: 50%; user-select: none;" >
+                
+            <form class="d-flex justify-content-end" style="margin: 2px;" id="btncollapse"> 
+                <button class="navbar-toggler" style="margin: 2px;" type="button" data-bs-toggle="offcanvas" data-bs-target=".offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </form>
+
+
+            <div class="offcanvas offcanvas-end justify-content-end offcanvasNavbar" tabindex="-1"  aria-labelledby="offcanvasNavbarLabel">
+                
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel" style="user-select: none;">CONTENTS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html" style="user-select: none;"><span class="litem">HOME</span></a>
+                        </li>  
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html#about" target="_blank" style="user-select: none;"><span class="litem">OUR SERVICES</span></a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="index.html#developers" target="_blank" style="user-select: none;"><span class="litem">MEET THE DEVELOPERS</span></a>
+                        </li>  
+                    
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </nav>
+
+    <!--  
+    <div>
+    <center>
+        <div style="background-color: rgba(255, 209, 101, 0.701); width: inherit; background-size: cover;" >
+            <h1 style="color: white;">GOLD USER HIRE SERVICE-CITIZEN welcome</h1>
+        </div>
+    </center></div>-->
+
+    <div class="container">
+        <div style="border-radius: 20px; float: right; background-color: rgb(0, 0, 0); margin: 1%; padding: 1%;" >
+            <span style="color: white;" id="welcomeuser"></span>
+        </div>
+    </div>
+
+    <!-- //////////////////// CARDS PROFILE-WORK-SETTING-LOG-OUT ///////////////// -->
+
+    <div class="container" style="margin-top: 10%;" >
+        <div class="row d-flex justify-content-evenly">
+
+                <div class="col-md-2 mb-3"  id="card1" style="width: 220px;" >
+                    <div class="card" style="width: 12rem; user-select: none; background: rgba(209, 209, 209, 0.912);"> 
+                    <img src="pics/card1.jpg" class="card-img-top" alt="..." height="190px">
+                    <div class="card-body">
+                      <center> <a href="ProfileServiceHire.html" target="_blank" class="btn btn-success">PROFILE</a></center>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 mb-3"  id="card2" style="width: 220px;">
+                    <div class="card" style="width: 12rem; user-select: none; background: rgba(209, 209, 209, 0.912);">
+                        <img src="pics/profile3.webp" class="card-img-top" alt="..." height="190px">
+                        <div class="card-body">
+                          <center>  <a href="uploadwork.html" target="_blank" class="btn btn-success">POST WORK</a></center>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 mb-3"  id="card3" style="width: 220px;">
+                    <div class="card" style="width: 12rem; user-select: none; background: rgba(209, 209, 209, 0.912);">
+                        <img src="pics/card4.png" class="card-img-top" alt="..." height="190px">
+                        <div class="card-body">
+                          <center>  <a href="findWorker.html" target="_blank" class="btn btn-success">FIND WORKER</a></center>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 mb-3"  id="card4" style="width: 220px;">
+                    <div class="card" style="width: 12rem; user-select: none; background: rgba(209, 209, 209, 0.912);">
+                        <img src="pics/card5.jpg" class="card-img-top" alt="..." height="190px">
+                        <div class="card-body">
+                          <center>  <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#passwordModal">SETTING</a></center>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-2 mb-3"  id="card5" style="width: 220px;">
+                        <div class="card" style="width: 12rem; user-select: none; background: rgba(209, 209, 209, 0.912);">
+                            <img src="pics/logout1.webp" class="card-img-top" alt="..." height="190px">
+                            <div class="card-body">
+                              <center>   <a href="#" id="btnLogout" class="btn btn-success">LOG-OUT</a></center>
+                            </div>
+                    </div>
+                </div> 
+
+        </div>
+    </div>
+
+    <!-- ////////  SECURITY ///////////////////////// class="fade"-->
+    <div class="modal " id="passwordModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Change Password - SECURITY</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <form>
+                        <div class="mb-3 form-floating">
+                          <input type="email" class="form-control" id="emailp" value="@gmail.com" required placeholder="email">
+                          <label for="emailp" class="form-label">&nbsp;Email address</label>                      
+                          <span id="emailmsj"></span>
+                        </div>
+                    
+                        <div class="row">
+                            <div class="mb-3 col-md-11 form-floating">
+                              <input type="password" class="form-control" id="passwordp" value="" required placeholder="old">
+                              <label for="passwordp" class="form-label">&nbsp;Old Password</label>
+                              <span id="oldmsj"></span>
+                            </div>
+
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fa1 fa-eye-slash fa" aria-hidden="true"></i> 
+                            </div>
+                        
+                        </div>
+
+                        <div class="row">
+                            <div class="mb-3 col-md-11 form-floating">
+                                <input type="password" class="form-control" id="newpasswordp" required value="" placeholder="new">
+                                <label for="newpasswordp" class="form-label">&nbsp;New Password</label>
+                                <span id="newmsj"></span>
+                            </div> 
+                        
+                            <div class="col-md-1" style="margin-top: 3%;">
+                                <i class="fan fa-eye-slash fa" aria-hidden="true"></i> 
+                            </div>
+                        
+                        </div>
+
+                        <center>
+                        <div class="mb-3">
+                            <input type="button" value="CHANGE" class="btn btn-success" id="btnChangePwd">
+                        </div>
+
+                        </center>
+                    </form>
+
+                </div>
+
+                <div class="modal-footer" style="align-items: center;">
+                    <div id="resultp"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
